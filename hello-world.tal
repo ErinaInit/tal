@@ -1,0 +1,19 @@
+( uxncli hello-world.tal )
+|10 @Console &vector $2 &read $1 &pad $4 &type $1 &write $1 &error $1
+
+|100 ( -> )
+
+     ;hello-word print-text
+
+BRK
+
+@print-text ( str* -- )
+
+     &while
+          ( send ) LDAk .Console/write DEO
+	  ( loop ) INC2 LDAk ?&while
+     POP2
+
+JMP2r
+
+@hello-word "Hello 20 "World 00
