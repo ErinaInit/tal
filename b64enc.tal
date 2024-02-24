@@ -1,0 +1,37 @@
+( uxncli b64enc.rom data )
+|10 @Console &vector $2 &read $1 &pad $4 &type $1 &write $1 &error $1
+
+|0000
+
+@queue $1
+@putsize $1
+
+|0100
+
+@on-reset ( -> )
+	;on-console .Console/vector DEO2
+	BRK
+
+@on-console ( -> )
+	.Console/type DEI #04 EQU ?finalize
+	.Console/read DEI <base64>
+BRK
+
+@<base64> ( byte -- )
+	.putsize LDZ INC INC DUP2 SFT .queue LDZ ORA #00 SWP ;mime ADD2 LDA .Console/write DEO
+	SWP OVR	#06 SWP SUB #40 SFT SFT #3f AND
+	SWP DUP #06 NEQ ?{ POP #00 SWP ;mime ADD2 LDA .Console/write DEO #0000 } .putsize STZ .queue STZ
+	JMP2r
+
+@finalize ( -- )
+	.putsize LDZ
+	DUP ?{ !&ed }
+	#00 .queue LDZ ;mime ADD2 LDA .Console/write DEO
+	&l ( sz -- sz )
+	   #3d18 DEO
+	   INC INC DUP #06 NEQ ?&l
+	&ed #010f DEO
+	POP BRK
+
+@mime
+"ABCDEFGHIJKLMNOP "QRSTUVWXYZabcdef "ghijklmnopqrstuv "wxyz0123456789+/
