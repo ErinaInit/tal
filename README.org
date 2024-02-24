@@ -1,0 +1,16 @@
+#+title: README
+#+author: Erina Init
+
+* README.org
+
+This is a gathering of some +shitposts+ small uxntal programs I made.
+
+For absolutely large files I may include a subdirectory like [[https://git.sr.ht/~rabbits/uxn-utils][uxn-utils]] did.
+
+** Current Shitposts
+
+[X] hello-world.tal
+basically just the basic hello world despite adding the comma and the exclamation mark
+
+[X] b64enc.tal
+Like its name implies, this does a base64 encoding, despite being similar to uxn-utils/cli/base64/b64enc.tal, this does not pad with \x00, and appends equal signs
